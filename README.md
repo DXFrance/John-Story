@@ -10,4 +10,4 @@ La saison 1 sera découpée en 4 épisodes.
 Vous pouvez retrouver toutes les informations ici : http://aka.ms/johnstory
 Il bande dessinée, une application et un cours gratuit! ;-)
 
-Lire l'épisode 1
+- [Lire l'épisode 1](https://github.com/JohnStory/saison1/blob/master/S01E01/episode1.md)
