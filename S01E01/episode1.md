@@ -1,5 +1,3 @@
-thejohnstory
-============
 Le démarrage de toutes choses
 -----------------------------
 
@@ -23,9 +21,4 @@ Il appelle un ami à la rescousse. Il monte des boites dans les vallée à San F
 Le tableau blanc et les posts-it ne suffisent plus. Le mode offline ne convient pas avec un membre de l'équipe aux USAs. Ils décident de mettre en place un outil de suivi, en l'utilisant le plus simplement possible.
 Leur choix se dirige vers Visual Studio Online. 
 
-Toute l'histoire
-----------------
-* John met en place des outils plus poussés en agilité
-* John veut un site plus scalable
-* [John met décide de créer une application mobile](https://github.com/emargraff/thejohnstory/blob/master/JohnEtCordova/johnetcordova.md)
-* John veut prévoir les besoins des chats (ndlr: Machine Learning)
+
