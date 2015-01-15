@@ -63,11 +63,11 @@ Il commence par configurer son premier sprint en choisisant une date de début e
 
 Pour assigner un élément à un son premier sprint, il lui suffit de le glisser vers ce sprint à partir du backlog.
 
-![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/assignersprint.PNG)
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/assignersprint.png)
 
 Une fois que les éléments sont assignés, il peut détailler en tâches en cliquant sur le bouton **+** vert qui apparaît sur chaque élément, dans le **Backlog de sprint**.
 
-![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/addtask.PNG)
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/addtask.png)
 
 Il est content parce qu'il conserve quand même une vision sous forme de post-its via un tableau qui lui donne en lignes les éléments du backlog et en colonne l'avancement des tâches associées.
 
