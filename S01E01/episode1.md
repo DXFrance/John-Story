@@ -1,5 +1,5 @@
 Le démarrage de toutes choses
------------------------------
+-
 
 John est quelqu'un d'extraordinaire.
 Il a une imagination débordante !
@@ -14,7 +14,7 @@ Il démarre avec un ami, qu'il convaint pendant un barbecue.
 Ils décident d'utiliser le meilleur outil pour l'agilité, un tableau blanc et des post-its.
 
 Un nouveau rejoint l'aventure
------------------------------
+-
 
 Le projet démarre bien, le museau à oreilles fonctionne, les chats arrivent sur la plateforme. 
 John a besoin d'aide.
@@ -41,3 +41,48 @@ Chaque élément possède une personne à laquelle il est assigné et un état, 
 Il a également la possibilité d'accéder à la vue **Board** qui lui permet de retrouver sa vision Post-it familière. L'avantage c'est que désormais les informations sont  sécurisées et le tableau est partagé avec tout le monde.
 
 ![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/board.PNG)
+
+Le projet grandit
+-
+
+EntreChats est lancé.
+EntreChats est tendance.
+Le museau à oreille fonctionne et de plus en plus de chats rejoignent la plateforme.
+Ca tombe bien car John (qui est extraordinaire, rappelons-le) a de plus en plus d'idées.
+
+Il embauche 3 personnes supplémentaires, 2 développeurs web et un designer pour avoir une interface graphique et une ergonomie plus adaptée (eh oui, la navigation en tactile, c'est pas la même chose quand on a des coussinets !)
+
+L'équipe est plus grande et John à besoin d'organiser un peu plus le travail. Il s'approche maintenant plus de la méthode très populaire dans l'agilite : Scrum.
+Pour ça, il a besoin d'organiser des Sprints et de découper chaque élément du backlog en sous tâches.
+
+Il est content car il peut continuer à utiliser le même projet dans VSO et simplement choisir d'utiliser un petit peu plus de fonctionnalité qu'il avait laissé de côté au démarrage pour se concentrer sur l'essentiel.
+
+Il commence par configurer son premier sprint en choisisant une date de début et une date de fin pour que le temps restant et que les graphiques (Burndown notamment) soient calculés automatiquement (si déjà !).
+
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/sprint1.PNG) 
+
+Pour assigner un élément à un son premier sprint, il lui suffit de le glisser vers ce sprint à partir du backlog.
+
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/assignersprint.PNG)
+
+Une fois que les éléments sont assignés, il peut détailler en tâches en cliquant sur le bouton **+** vert qui apparaît sur chaque élément, dans le **Backlog de sprint**.
+
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/addtask.PNG)
+
+Il est content parce qu'il conserve quand même une vision sous forme de post-its via un tableau qui lui donne en lignes les éléments du backlog et en colonne l'avancement des tâches associées.
+
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/sprintboard.PNG)
+
+Il pourrait même aller plus loin en indiquant la disponibilité des membres de l'équipe, mais dans son cas ils bossent sur le projet à 100% de leur temps ! Il accède au **capacity planning** via l'onglet **capacity**
+
+![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/sprintboard.PNG)
+
+La suite au prochain épisode
+-
+
+John est serein.
+Son projet est sur les rails.
+Il est content, tout est simple jusqu'à présent.
+Et John aime la simplicité...
+
+A bientôt !
