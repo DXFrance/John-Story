@@ -5,12 +5,12 @@ John est quelqu'un d'extraordinaire.<br/>
 Il a une imagination débordante !<br/>
 <br/>
 En ce moment il n'arrive pas à dormir à cause des chats nombreux qui miaulent à sa fenêtre.
-Il ne dort pas, donc il réfléchi. Et comme il a une imagination incroyable, il a une idée ...
+Il ne dort pas, donc il réfléchit. Et comme il a une imagination incroyable, il a une idée ...
 Il se dit que les chats veulent communiquer, et si possible, pas sous sa fenêtre !
 <br/>
 Il décide de créer EntreChats. Oui, oui : le premier réseau social pour Chats !
 <br/>
-Il démarre avec un ami, qu'il convaint pendant un barbecue.<br/>
+Il démarre avec un ami, qu'il convainc pendant un barbecue.<br/>
 Ils décident d'utiliser le meilleur outil pour l'agilité, un tableau blanc et des post-its.
 
 Un nouveau rejoint l'aventure
@@ -18,7 +18,7 @@ Un nouveau rejoint l'aventure
 
 Le projet démarre bien, le museau à oreilles fonctionne, les chats arrivent sur la plateforme. <br/>
 John a besoin d'aide.<br/>
-Il appelle un ami à la rescousse. Il monte des boites dans la vallée à San Francisco. Justement il est entre deux projets et EntreChat le botte bien ! Il rejoint l'équipe en tant que développeur Web.
+Il appelle un ami à la rescousse. Il monte des boites dans la vallée à San Francisco. Justement il est entre deux projets et EntreChats le botte bien ! Il rejoint l'équipe en tant que développeur Web.
 <br/>
 Le tableau blanc et les posts-it ne suffisent plus. Le mode offline ne convient pas avec un membre de l'équipe à distance. Ils décident de mettre en place un outil de suivi, en l'utilisant le plus simplement possible.
 Leur choix se dirige vers Visual Studio Online (VSO).
@@ -52,12 +52,12 @@ Ca tombe bien car John (qui est extraordinaire, rappelons-le) a de plus en plus 
 
 Il embauche 3 personnes supplémentaires, 2 développeurs web et un designer pour avoir une interface graphique et une ergonomie plus adaptée (eh oui, la navigation en tactile, c'est pas la même chose quand on a des coussinets !)
 
-L'équipe est plus grande et John à besoin d'organiser un peu plus le travail. Il s'approche maintenant plus de la méthode très populaire dans l'agilite : Scrum.
+L'équipe est plus grande et John a besoin d'organiser un peu plus le travail. Il s'approche maintenant plus de la méthode très populaire dans l'agilite : Scrum.
 Pour ça, il a besoin d'organiser des Sprints et de découper chaque élément du backlog en sous tâches.
 
-Il est content car il peut continuer à utiliser le même projet dans VSO et simplement choisir d'utiliser un petit peu plus de fonctionnalités qu'il avait laissé de côté au démarrage pour se concentrer sur l'essentiel.
+Il est content car il peut continuer à utiliser le même projet dans VSO et simplement choisir d'utiliser un petit peu plus de fonctionnalités qu'il avait laissées de côté au démarrage pour se concentrer sur l'essentiel.
 
-Il commence par configurer son premier sprint en choisisant une date de début et une date de fin pour que le temps restant et que les graphiques (Burndown notamment) soient calculés automatiquement (si déjà !).
+Il commence par configurer son premier sprint en choisissant une date de début et une date de fin pour que le temps restant et que les graphiques (Burndown notamment) soient calculés automatiquement (si déjà !).
 
 ![](https://github.com/JohnStory/saison1/blob/master/S01E01/images/sprint1.PNG) 
 
