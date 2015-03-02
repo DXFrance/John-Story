@@ -29,6 +29,9 @@ namespace ManageRecommendationModel
         private string _email;
         private string _key;
         private HttpClient _httpClient;
+        private string _latestBuildId=null;
+
+        public string ModelId { get; private set; }
 
         public RecommendationModel(string email, string key)
         {
@@ -46,8 +49,6 @@ namespace ManageRecommendationModel
         {
             this.ModelId = modelId;
         }
-
-        public string ModelId { get; private set; }
 
         /// <summary>
         /// create the model with the given name.
@@ -76,9 +77,8 @@ namespace ManageRecommendationModel
                         response2.StatusCode, ExtractErrorInfo(response2)), firstException);
                 }
 
-                var node2 = XmlUtils.ExtractXmlElement(response.Content.ReadAsStreamAsync().Result, 
-                    string.Format("//a:entry[/a:content/m:properties/d:Name='{0}']/a:content/m:properties/d:Id", MODEL_NAME));
-
+                var node2 = XmlUtils.ExtractXmlElement(response2.Content.ReadAsStreamAsync().Result,
+                    string.Format("//a:entry[a:content/m:properties/d:Name='{0}']/a:content/m:properties/d:Id", MODEL_NAME));
 
                 if (node2 == null)
                 {
@@ -87,7 +87,7 @@ namespace ManageRecommendationModel
                 }
 
                 this.ModelId = node2.InnerText;
-                
+                return this.ModelId;
             }
 
             //process response if success
@@ -110,6 +110,84 @@ namespace ManageRecommendationModel
         {
             return ImportFile(IMPORT_USAGE_URL, usageFilePath);
         }
+
+        public string BuildModel()
+        {
+            string description = "build of " + DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+            var request = new HttpRequestMessage(HttpMethod.Post, String.Format(BUILD_MODEL_URL, this.ModelId, description));
+
+            //setup the build parameters here we use a simple build without feature usage, for a complete list and 
+            //explanation check the API document AT
+            //http://azure.microsoft.com/en-us/documentation/articles/machine-learning-recommendation-api-documentation/#1113-recommendation-build-parameters
+            request.Content = new StringContent("<BuildParametersList>" +
+                                                "<NumberOfModelIterations>10</NumberOfModelIterations>" +
+                                                "<NumberOfModelDimensions>20</NumberOfModelDimensions>" +
+                                                "<ItemCutOffLowerBound>1</ItemCutOffLowerBound>" +
+                                                "<EnableModelingInsights>false</EnableModelingInsights>" +
+                                                "<UseFeaturesInModel>false</UseFeaturesInModel>" +
+                                                "<ModelingFeatureList></ModelingFeatureList>" +
+                                                "<AllowColdItemPlacement>true</AllowColdItemPlacement>" +
+                                                "<EnableFeatureCorrelation>false</EnableFeatureCorrelation>" +
+                                                "<ReasoningFeatureList></ReasoningFeatureList>" +
+                                                "</BuildParametersList>");
+
+            var response = _httpClient.SendAsync(request).Result;
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(String.Format("Error {0}: Failed to start build for model {1}, \n reason {2}",
+                    response.StatusCode, this.ModelId, ExtractErrorInfo(response)));
+            }
+            string buildId = null;
+            //process response if success
+            var node = XmlUtils.ExtractXmlElement(response.Content.ReadAsStreamAsync().Result, "//a:entry/a:content/m:properties/d:Id");
+            if (node != null)
+                buildId = node.InnerText;
+
+            _latestBuildId = buildId;
+
+            return buildId;
+        }
+
+        public BuildStatus GetLatestBuildStatus()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, String.Format(BUILD_STATUS_URL, this.ModelId, false));
+            var response = _httpClient.SendAsync(request).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(String.Format("Error {0}: Failed to retrieve build for status for model {1} and build id {2}, \n reason {3}",
+                    response.StatusCode, this.ModelId, _latestBuildId, ExtractErrorInfo(response)));
+            }
+            string buildStatusStr = null;
+            var node = XmlUtils.ExtractXmlElement(response.Content.ReadAsStreamAsync().Result, string.Format("//a:entry/a:content/m:properties[d:BuildId='{0}']/d:Status", _latestBuildId));
+            if (node != null)
+                buildStatusStr = node.InnerText;
+
+            BuildStatus buildStatus;
+            if (!Enum.TryParse(buildStatusStr, true, out buildStatus))
+            {
+                throw new Exception(string.Format("Failed to parse build status for value {0} of build {1} for model {2}",
+                    buildStatusStr, _latestBuildId, this.ModelId));
+            }
+
+            return buildStatus;
+        }
+
+        //@@@
+        //public void InvokeRecommendations(List<CatalogItem> seedItems)
+        //{
+        //    List<CatalogItem> recommendations = new List<CatalogItem>();
+            
+        //    var recoItems = GetRecommendation(modelId, seedItems.Select(i => i.Id).ToList(), 10);
+        //    Console.WriteLine("\tRecommendations for [{0}]", string.Join("],[", seedItems));
+        //    foreach (var recommendedItem in recoItems)
+        //    {
+        //        Console.WriteLine("\t  {0}", recommendedItem);
+        //    }
+        //}
+
 
         private ImportReport ImportFile(string importUri, string filePath)
         {
@@ -176,7 +254,5 @@ namespace ManageRecommendationModel
             return errorMsg;
 
         }
-
-
     }
 }

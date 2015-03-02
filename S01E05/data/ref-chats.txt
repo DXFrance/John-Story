@@ -1,12 +1,12 @@
-﻿1	Sichahrpe
-2	Félix
-3	Chatouille
-4	Minette
-5	Grosminet
-6	Chahpotté
-7	Azraël
-8	Chahrlie
-9	Chaton
-10	Chatoune
-11	Berlioz
-12	Toulouse
+﻿1,Sichahrpe
+2,Félix
+3,Chatouille
+4,Minette
+5,Grosminet
+6,Chahpotté
+7,Azraël
+8,Chahrlie
+9,Chaton
+10,Chatoune
+11,Berlioz
+12,Toulouse
