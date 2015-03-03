@@ -175,19 +175,70 @@ namespace ManageRecommendationModel
             return buildStatus;
         }
 
-        //@@@
-        //public void InvokeRecommendations(List<CatalogItem> seedItems)
-        //{
-        //    List<CatalogItem> recommendations = new List<CatalogItem>();
+        public IEnumerable<RecommendedItem> InvokeRecommendations(List<CatalogItem> seedItems)
+        {
+            List<CatalogItem> recommendations = new List<CatalogItem>();
             
-        //    var recoItems = GetRecommendation(modelId, seedItems.Select(i => i.Id).ToList(), 10);
-        //    Console.WriteLine("\tRecommendations for [{0}]", string.Join("],[", seedItems));
-        //    foreach (var recommendedItem in recoItems)
-        //    {
-        //        Console.WriteLine("\t  {0}", recommendedItem);
-        //    }
-        //}
+            return GetRecommendation(seedItems.Select(i => i.Id).ToList(), 5);
+        }
 
+        /// <summary>
+        /// Retrieve recommendation for the given item(s)
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="itemIdList"></param>
+        /// <param name="numberOfResult">the number of result to include in the response</param>
+        /// <param name="includeMetadata">true, means meta data will be returned too</param>
+        /// <returns>a collection of recommended items</returns>
+        private IEnumerable<RecommendedItem> GetRecommendation(List<string> itemIdList, int numberOfResult,
+            bool includeMetadata = false)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                String.Format(GET_RECOMMENDATION_URL, this.ModelId, string.Join(",", itemIdList), numberOfResult,
+                    includeMetadata));
+            var response = _httpClient.SendAsync(request).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(
+                    String.Format(
+                        "Error {0}: Failed to retrieve recommendation for item list {1} and model {2}, \n reason {3}",
+                        response.StatusCode, string.Join(",", itemIdList), this.ModelId, ExtractErrorInfo(response)));
+            }
+            var recoList = new List<RecommendedItem>();
+
+
+            var nodeList = XmlUtils.ExtractXmlElementList(response.Content.ReadAsStreamAsync().Result, "//a:entry/a:content/m:properties");
+
+            foreach (var node in (nodeList))
+            {
+                var item = new RecommendedItem();
+                //cycle through the recommended items
+                foreach (var child in ((XmlElement)node).ChildNodes)
+                {
+                    //cycle through properties
+                    var nodeName = ((XmlNode)child).LocalName;
+                    switch (nodeName)
+                    {
+                        case "Id":
+                            item.Id = ((XmlNode)child).InnerText;
+                            break;
+                        case "Name":
+                            item.Name = ((XmlNode)child).InnerText;
+                            break;
+                        case "Rating":
+                            item.Rating = ((XmlNode)child).InnerText;
+                            break;
+                        case "Reasoning":
+                            item.Reasoning = ((XmlNode)child).InnerText;
+                            break;
+                    }
+
+                }
+                recoList.Add(item);
+            }
+            return recoList;
+        }
 
         private ImportReport ImportFile(string importUri, string filePath)
         {

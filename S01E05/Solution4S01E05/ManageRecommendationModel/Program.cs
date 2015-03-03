@@ -86,24 +86,32 @@ namespace ManageRecommendationModel
                             monitor = false;
                         }
                     }
+
+                    Console.WriteLine("wait for the built model to be available");
+                    Thread.Sleep(10000);
                 }
 
-                //@@@
-                //Console.WriteLine("\nGetting some recommendations...");
-                //// get recommendations
-                //var seedItems = new List<CatalogItem>
-                //{
-                //    // These item data were extracted from the catalog file in the resource folder.
-                //    new CatalogItem() {Id = "1", Name = "Chébon"},
-                //    new CatalogItem() {Id = "2", Name = "Fishtre"},
-                //    new CatalogItem() {Id = "8", Name = "Eau du robinet"},
-                //    new CatalogItem() {Id = "10", Name = "Lait de vache"}
-                //};
-                //Console.WriteLine("\t for single seed item");
-                //// show usage for single item
-                //model.InvokeRecommendations(seedItems);
+                Console.WriteLine("\nGetting some recommendations...");
+                // get recommendations
+                var seedItems = new List<CatalogItem>
+                {
+                    // These item data were extracted from the catalog file in the resource folder.
+                    new CatalogItem() {Id = "1", Name = "Chébon"},
+                    new CatalogItem() {Id = "2", Name = "Fishtre"},
+                    new CatalogItem() {Id = "8", Name = "Eau du robinet"},
+                    new CatalogItem() {Id = "10", Name = "Lait de vache"}
+                };
 
 
+                Console.WriteLine("\tgetting recommendations for [{0}]", string.Join("],[", seedItems));
+                var recommendedItems = model.InvokeRecommendations(seedItems);
+
+                foreach (var recommendedItem in recommendedItems)
+                {
+                    Console.WriteLine("\t  {0}", recommendedItem);
+                }
+
+                Console.WriteLine("OK");
             }
             catch(Exception ex)
             {
