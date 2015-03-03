@@ -20,16 +20,17 @@ namespace ManageRecommendationModel
                 string catalogFilePath = ConfigurationManager.AppSettings["recommendationModel.catalog.path"];
                 string usageFilePath = ConfigurationManager.AppSettings["recommendationModel.usage.path"];
                 bool buildModel = bool.Parse(ConfigurationManager.AppSettings["recommendationModel.build"]);
+                bool deleteExistingModelIfAny = bool.Parse(ConfigurationManager.AppSettings["recommendationModel.deleteExistingModel"]);
 
                 if (email == null || key == null)
                     throw new ApplicationException("Please fill azureDatamarket.email and azureDatamarket.key in the configuration file");
 
                 RecommendationModel model = null;
 
-                if (modelId == null)
+                if (modelId == null || deleteExistingModelIfAny)
                 {
                     model = new RecommendationModel(email, key);
-                    modelId = model.CreateModel();
+                    modelId = model.CreateModel(deleteExistingModelIfAny);
                     Console.WriteLine("You may want to update configuration with the following in appSettings:");
                     Console.WriteLine("<add key=\"recommendationModel.id\" value=\"{0}\" />", modelId);
                 }
@@ -91,25 +92,21 @@ namespace ManageRecommendationModel
                     Thread.Sleep(10000);
                 }
 
-                Console.WriteLine("\nGetting some recommendations...");
-                // get recommendations
-                var seedItems = new List<CatalogItem>
-                {
-                    // These item data were extracted from the catalog file in the resource folder.
-                    new CatalogItem() {Id = "1", Name = "Chébon"},
-                    new CatalogItem() {Id = "2", Name = "Fishtre"},
-                    new CatalogItem() {Id = "8", Name = "Eau du robinet"},
-                    new CatalogItem() {Id = "10", Name = "Lait de vache"}
-                };
+                GetRecommendations(model, new List<CatalogItem>
+                    {
+                        // These item data were extracted from the catalog file in the resource folder.
+                        // ask for quite popular items
+                        new CatalogItem() {Id = "1", Name = "Chébon"},
+                        new CatalogItem() {Id = "2", Name = "Fishtre"},
+                        new CatalogItem() {Id = "8", Name = "Eau du robinet"}
+                    });
 
-
-                Console.WriteLine("\tgetting recommendations for [{0}]", string.Join("],[", seedItems));
-                var recommendedItems = model.InvokeRecommendations(seedItems);
-
-                foreach (var recommendedItem in recommendedItems)
-                {
-                    Console.WriteLine("\t  {0}", recommendedItem);
-                }
+                GetRecommendations(model, new List<CatalogItem>
+                    {
+                        // let's try with less popular items
+                        new CatalogItem() {Id = "7", Name = "Croquis"},
+                        new CatalogItem() {Id = "9", Name = "Eau minérale"}
+                    });
 
                 Console.WriteLine("OK");
             }
@@ -121,6 +118,19 @@ namespace ManageRecommendationModel
             { 
                 Console.WriteLine("---- done ----");
                 Console.ReadLine();
+            }
+        }
+
+        static void GetRecommendations(RecommendationModel model, List<CatalogItem> seedItems)
+        {
+            Console.WriteLine("\nGetting some recommendations...");
+
+            Console.WriteLine("\tgetting recommendations for [{0}]", string.Join("],[", seedItems));
+            var recommendedItems = model.InvokeRecommendations(seedItems);
+
+            foreach (var recommendedItem in recommendedItems)
+            {
+                Console.WriteLine("\t  {0}", recommendedItem);
             }
         }
     }

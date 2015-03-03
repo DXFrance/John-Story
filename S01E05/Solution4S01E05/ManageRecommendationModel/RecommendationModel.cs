@@ -18,6 +18,7 @@ namespace ManageRecommendationModel
         private const string BUILD_MODEL_URL = "BuildModel?modelId=%27{0}%27&userDescription=%27{1}%27&apiVersion=%271.0%27";
         private const string BUILD_STATUS_URL = "GetModelBuildsStatus?modelId=%27{0}%27&onlyLastBuild={1}&apiVersion=%271.0%27";
         private const string CREATE_MODEL_URL = "CreateModel?modelName=%27{0}%27&apiVersion=%271.0%27";
+        private const string DELETE_MODEL_URL = "DeleteModel?id=%27{0}%27&apiVersion=%271.0%27";
         private const string GET_ALL_MODELS = "GetAllModels?apiVersion=%271.0%27";
         private const string GET_RECOMMENDATION_URL = "ItemRecommend?modelId=%27{0}%27&itemIds=%27{1}%27&numberOfResults={2}&includeMetadata={3}&apiVersion=%271.0%27";
         private const string IMPORT_CATALOG_URL = "ImportCatalogFile?modelId=%27{0}%27&filename=%27{1}%27&apiVersion=%271.0%27";
@@ -53,9 +54,21 @@ namespace ManageRecommendationModel
         /// <summary>
         /// create the model with the given name.
         /// </summary>
+        /// <param name="deleteExistingModelIfAny">
+        /// if a model already exists, it will be deleted before a new one is created
+        /// </param>
         /// <returns>The model id</returns>
-        public string CreateModel()
+        public string CreateModel(bool deleteExistingModelIfAny)
         {
+            if (deleteExistingModelIfAny)
+            {
+                if (this.ModelId == null)
+                    GetExistingModel(null);
+
+                if (this.ModelId != null)
+                    DeleteModel();
+            }
+
             if (this.ModelId != null)
                 throw new ApplicationException("Model was already created");
 
@@ -67,26 +80,11 @@ namespace ManageRecommendationModel
                 Exception firstException = new Exception(String.Format("Error {0}: Failed to create model {1}, \n reason {2}",
                     response.StatusCode, MODEL_NAME, ExtractErrorInfo(response)));
 
-                // try to get the model. It may have already been created.
-                var request2 = new HttpRequestMessage(HttpMethod.Get, GET_ALL_MODELS);
-                var response2 = _httpClient.SendAsync(request2).Result;
+                if (deleteExistingModelIfAny)
+                    throw firstException; // already removed a potential existing model. Throw the exception.
+                else
+                    GetExistingModel(firstException); // try to find existing model.
 
-                if (!response2.IsSuccessStatusCode)
-                {
-                    throw new Exception(String.Format("Error {0}: Failed to get all models, \n reason {1}",
-                        response2.StatusCode, ExtractErrorInfo(response2)), firstException);
-                }
-
-                var node2 = XmlUtils.ExtractXmlElement(response2.Content.ReadAsStreamAsync().Result,
-                    string.Format("//a:entry[a:content/m:properties/d:Name='{0}']/a:content/m:properties/d:Id", MODEL_NAME));
-
-                if (node2 == null)
-                {
-                    throw new Exception(String.Format("Could not create nor find model {0}", MODEL_NAME), 
-                        firstException);
-                }
-
-                this.ModelId = node2.InnerText;
                 return this.ModelId;
             }
 
@@ -99,6 +97,47 @@ namespace ManageRecommendationModel
 
             this.ModelId = modelId;
             return modelId;
+        }
+
+        private void GetExistingModel(Exception firstException)
+        {
+            // try to get the model. It may have already been created.
+            var request = new HttpRequestMessage(HttpMethod.Get, GET_ALL_MODELS);
+            var response = _httpClient.SendAsync(request).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(String.Format("Error {0}: Failed to get all models, \n reason {1}",
+                    response.StatusCode, ExtractErrorInfo(response)), firstException);
+            }
+
+            var node = XmlUtils.ExtractXmlElement(response.Content.ReadAsStreamAsync().Result,
+                string.Format("//a:entry[a:content/m:properties/d:Name='{0}']/a:content/m:properties/d:Id", MODEL_NAME));
+
+            if (node == null)
+            {
+                throw new Exception(String.Format("Could not create nor find model {0}", MODEL_NAME),
+                    firstException);
+            }
+
+            this.ModelId = node.InnerText;
+        }
+
+        public void DeleteModel()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete,
+                String.Format(DELETE_MODEL_URL, this.ModelId));
+            var response = _httpClient.SendAsync(request).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(
+                    String.Format(
+                        "Error {0}: Failed to delete model {1}, \n reason {2}",
+                        response.StatusCode, this.ModelId, ExtractErrorInfo(response)));
+            }
+
+            this.ModelId = null;
         }
 
         public ImportReport ImportCatalog(string catalogFilePath)
