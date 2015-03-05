@@ -11,7 +11,7 @@ Les discussions tournent beaucoup autour de la nourriture et en particulier des 
 A ce moment, l'amie de John lui crie depuis la cuisine : 
 > "John, t'a pensé à re-commander des céréales pour le p'tit dej' ?"
 
-Mais oui, c'est cela, il faut recommander.
+Mais oui, c'est cela, il faut *recommander*.
 
 #Recommander
 
@@ -23,17 +23,14 @@ Il clique et se retrouve sur la [page d'accueil de ce service de recommandations
 
 ![page d'accueil du service de recommandations](images/amla-recommendations-home.png)
 
-John parcourt les FAQ, documentations et ce service lui plait bien. Il imagine déjà les goûts de Sichahrpe, Félix et Chatouille partagés avec Minette qui pourtant ne les connaît pas. 
+John parcourt les FAQ, documentations et ce service lui plait bien. Il s'abonne aux 10 000 transactions gratuites par mois pour pas un rond, même pas un carte bleue. 0 €, ça lui va bien à John.
+Il imagine déjà les goûts de Sichahrpe, Félix et Chatouille partagés avec Minette qui pourtant ne les connaît pas. 
 
-Sichatrpe aime bien Chéba,  XXX
+De façon générale, John a constaté que les chats aiment bien les croquettes Chébon (par définition), Fishtre (le poisson et les chats...), Chahrnassier (la viande aussi...), Chahmnivore (tout est bon, en fait)...
+En revanche, les chats qui aiment Croquis sont plus rares.
+Au niveau boisson, John a remarqué que l'eau du robinet et le lait de vache ont la cote. En revanche, les chats qui aiment l'eau minérale ou le lait de soja sont plus rares. 
 
-#(à classer)
-
-John récupère ses informations de connexion sur la page de son compte: 
-https://datamarket.azure.com/account
-
-La documentation de l'API est disponible [ici](http://azure.microsoft.com/en-us/documentation/articles/machine-learning-recommendation-api-documentation/).
-
+Alors John télécharge l'application exemple et la personnalise avec son propre scénario. Il met à jour le code, récupère les informations de connexion sur la page de son compte: https://datamarket.azure.com/account, met ses données au bon format et appelle les API. La documentation de l'API est disponible [ici](http://azure.microsoft.com/en-us/documentation/articles/machine-learning-recommendation-api-documentation/). Après quelques temps il a un premier résultat que voici: 
 
 ```
 using model 8eeef134-0176-4ae9-b1f3-b53c5ba68b49
@@ -62,6 +59,7 @@ OK
 
 ```
 
+Du coup, John va intégrer tout cela dans le réseau social **EntreChats**. Ca va être facile. Pas de datascientisteries, juste du dev, et le dev, John aime bien ça!
 
 #La suite au prochain épisode
 
