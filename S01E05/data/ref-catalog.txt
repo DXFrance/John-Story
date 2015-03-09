@@ -1,0 +1,11 @@
+﻿1,Chébon,croquette
+2,Fishtre,croquette
+3,Chahrnassier,croquette
+4,Chahmnivore,croquette
+5,Chahbon,croquette
+6,Laihché,croquette
+7,Croquis,croquette
+8,Eau du robinet,boisson
+9,Eau minérale,boisson
+10,Lait de vache,boisson
+11,Lait de soja,boisson
