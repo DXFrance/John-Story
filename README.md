@@ -14,6 +14,7 @@ La saison 1 sera découpée en 4 épisodes.<br />
 - Episode 2 (à venir)
 - Episode 3 (à venir)
 - Episode 4 (à venir) 
+- [Episode 5](https://github.com/JohnStory/saison1/blob/master/S01E05/episode5.md)
 
 # Participez !
 Vous pouvez proposer des modifications, ou des enrichissement à l'histoire :
